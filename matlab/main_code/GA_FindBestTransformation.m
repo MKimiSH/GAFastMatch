@@ -1,14 +1,18 @@
 function [bestConfig,bestTransMat,sampledError] = ...
-        FindBestTransformation(I1,I2,bounds,steps,epsilon,delta,photometricInvariance,templateMask)
+        GA_FindBestTransformation(I1,I2,bounds,steps,epsilon,delta,photometricInvariance,templateMask)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% verify input image types
 if ( ~strcmp(class(I1),'double') || ~strcmp(class(I2),'double')) %#ok<STISA>
-    error('FastMatch: I1 and I2 should both be of class ''double'' (in the range [0,1])');
+    error('GAFastMatch: I1 and I2 should both be of class ''double'' (in the range [0,1])');
 end
 
 if ((size(templateMask,1) ~= size(I1,1)) || (size(templateMask,2) ~= size(I1,2)) )
-    error('FastMatch: Template mask not same size as template');
+    error('GAFastMatch: Template mask not same size as template');
+end
+
+if (size(I1,1)~=size(I1,2) || size(I2,1)~=size(I2,2))
+    error('GAFastMatch: Template and image should be square!');
 end
 
 isGrayscale = (size(I1,3)==1);

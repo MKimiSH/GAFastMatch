@@ -5,3 +5,5 @@ testimg/*
 benchmark/*
 results/*
 *.pdf
+*.jpg
+*.mexw64
