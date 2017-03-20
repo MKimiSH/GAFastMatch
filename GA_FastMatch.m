@@ -81,10 +81,11 @@ maxTx = min(searchRange.maxTx,r2x-r1x*minScale);
 minTy = max(searchRange.minTy,-(r2y-r1y*minScale));
 maxTy = min(searchRange.maxTy,r2y-r1y*minScale);
 
+nsteps = 2^8;
 
 %% parametrize the initial grid
-[bounds,steps] = GenerateGrid(w1,h1,delta,minTx,maxTx,minTy,maxTy,minRotation,maxRotation,minScale,maxScale);
-
+% [bounds,steps] = GenerateGrid(w1,h1,delta,minTx,maxTx,minTy,maxTy,minRotation,maxRotation,minScale,maxScale);
+[bounds, steps] = GA_GenerateGrid(w1,h1,nsteps,minTx,maxTx,minTy,maxTy,minRotation,maxRotation,minScale,maxScale);
 
 %% run the actual search!
 [bestConfig,bestTransMat,sampledError] = ...
