@@ -1,4 +1,4 @@
-function [bestConfig,bestTransMat,sampledError] = FastMatch(template,img,... % mandatory
+function [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img,... % mandatory
     templateMask, epsilon,delta,photometricInvariance, searchRange) %optional                                                                        
 %FastMatch Find an approximate template match under affine transformations.
 %   FastMatch(template,img,... % mandatory
@@ -14,7 +14,7 @@ function [bestConfig,bestTransMat,sampledError] = FastMatch(template,img,... % m
 
 %% set default values for optional variables
 if (~exist('epsilon','var') || isempty(epsilon))
-    epsilon = 0.15;
+    epsilon = 0.10;
 end
 if (~exist('delta','var') || isempty(delta))
     delta = 0.25;
@@ -89,7 +89,7 @@ nsteps = 2^8;
 
 %% run the actual search!
 [bestConfig,bestTransMat,sampledError] = ...
-    FindBestTransformation(template,img,bounds,steps,epsilon,delta,photometricInvariance, templateMask);
+    GA_FindBestTransformation(template,img,bounds,steps,epsilon,delta,photometricInvariance, templateMask);
 
 %%
 return

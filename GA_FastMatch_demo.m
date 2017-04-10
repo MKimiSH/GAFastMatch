@@ -1,4 +1,4 @@
-function FastMatch_demo
+function GA_FastMatch_demo
 %%%%%%%%%%%%%%%%%%%%%%%
 
 clc
@@ -18,7 +18,7 @@ CompileMex
 example_1 = 0; % "predefined template in a predefined image"
 example_2 = 0; % "predefined template with given MASK in a predefined image"
 example_3 = 0; % "RANDOM template in a user-selected image"
-example_4 = 0; % "USER-SELECTED template in a user-selected image"
+example_4 = 1; % "USER-SELECTED template in a user-selected image"
 example_5 = 0; % "choose a pair of RELATED images and select a template in the first"
 example_6 = 0; % "random template in a user-selected image with a limited SEARCH RANGE"
 
@@ -41,7 +41,7 @@ if example_1
     load([pwd '/example/OptMat.mat'], 'optMat');
     
     % FastMatch run
-    [bestConfig,bestTransMat,sampledError] = FastMatch(template,img);
+    [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img);
         
     % Visualize result
     [optError,fullError,overlapError] = MatchingResult(template,img,bestTransMat,optMat,'example 1');
@@ -78,7 +78,7 @@ if example_2
     load([pwd '/example/OptMat.mat'], 'optMat');
     
     % FastMatch run
-    [bestConfig,bestTransMat,sampledError] = FastMatch(template,img,templateMask);
+    [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img,templateMask);
     
     % Visualize result
     [optError,fullError,overlapError] = MatchingResult(template,img,bestTransMat,optMat,'example 2', templateMask);
@@ -109,7 +109,7 @@ if example_3
     [template,optMat] = GenerateRandomAffineTemplate(img,n1);
 
     % FastMatch run
-    [bestConfig,bestTransMat,sampledError] = FastMatch(template,img);
+    [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img);
     
     % Visualize result
     [optError,fullError,overlapError] = MatchingResult(template,img,bestTransMat,optMat,'example 3');
@@ -138,7 +138,7 @@ if example_4
     [template,optMat] = GenerateUserSelectedTemplate(img,'Example ');
         
     % FastMatch run
-    [bestConfig,bestTransMat,sampledError] = FastMatch(template,img);
+    [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img);
     
     % Visualize result
     [optError,fullError,overlapError] = MatchingResult(template,img,bestTransMat,optMat,'example 4');
@@ -171,7 +171,7 @@ if example_5
 %     ShowInstance(template,img,'example 5');
     
     % FastMatch run
-   [bestConfig,bestTransMat,sampledError] = FastMatch(template,img);
+   [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img);
     
     % Visualize result
     [optError,fullError,overlapError] = MatchingResult(template,img,bestTransMat,[],'example 5');
@@ -213,7 +213,7 @@ if example_6
     
 
     % FastMatch run
-    [bestConfig,bestTransMat,sampledError] = FastMatch(template,img,[],[],[],[],searchRange);
+    [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img,[],[],[],[],searchRange);
 
     % Visualize result
     [optError,fullError,overlapError] = MatchingResult(template,img,bestTransMat,optMat,'example 6');

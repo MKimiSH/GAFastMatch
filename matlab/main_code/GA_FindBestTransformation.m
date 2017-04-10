@@ -38,9 +38,9 @@ numPoints = round(10/epsilon^2);
 % the command above will fail because of too many configs!!!!
 % only create list of configs of those in the group!
 
-if (size(configs,1) > 71000000)
-        error('more than 35 million configs!');
-end
+% if (size(configs,1) > 71000000)
+%         error('more than 35 million configs!');
+% end
 
 
 %% main loop
@@ -54,10 +54,10 @@ n = 8; % length of the code --> number of steps = 2^n
 sigma = 5; % LAS sampling parameter 
 eps = 3; % step for SAD computation
 delta = 11^6; % initial group size
-lambda = 0.7; % reduction of group size per generation
+lambda = 0.9; % reduction of group size per generation
 alpha = 0; % two parameters for to bound the lambda 
 beta = 0; % of which I question the use
-c = 20; % #samples of last generation
+c = 200; % #samples of last generation
 
 % procedure
 % 1. initialization
@@ -68,7 +68,8 @@ c = 20; % #samples of last generation
 % <4. crossover the set in <3.
 % 3. return the best A in this small final group
 
-% 1-tx, 2-ty, 3-sx, 4-sy, 5-theta1, 6-theta2; -temporary
+% 1-tx, 2-ty, 3-theta2, 4-sx, 5-sy, 6-theta1; -temporary
+% Dr. Zhang: 1-tx, 2-ty, 3-theta2, 4-theta1, 5-sx, 6-sy;
 initSamples = randi([0, 2^n - 1], delta, 6, 'uint8');
 % initConfigs = GA_CreateListOfConfigs(bounds,steps,initSamples);
 group = ones(delta,1);
@@ -102,8 +103,9 @@ while(groupSize > c)
     origNumConfigs = size(configs,1);
     configs = configs(inBoundaryInds,:);
     groupidx = groupidx(inBoundaryInds);
-%     samples = samples(inBoundaryInds,:);
+    samples = samples(inBoundaryInds,:);
     groupSize = length(groupidx);
+    groupidx = 1:groupSize;
     Configs2Affine_mex_time = toc(Configs2AffineMEX);
     
     % 3] affine -> distances
@@ -128,6 +130,7 @@ while(groupSize > c)
     groupSize = length(groupidx);
     % groupidx -> newsamples
     samples = samples(groupidx, :);
+    fprintf('mindist = %.3f\n', min(distances));
     
     % if crossover is allowed then optimality will be severely damaged.
     % 6] if small group then choose best one and stop.
@@ -145,6 +148,7 @@ while(groupSize > c)
     
     % 7] newsamples --crossover--> next iteration.
     [samples] = GA_Crossover(samples, n);
+    [xs, ys] = getPixelSample(templateMask, numPoints);
 end
 % bestConfig = GA_FindBestConfig(I1, I2, configs);
 

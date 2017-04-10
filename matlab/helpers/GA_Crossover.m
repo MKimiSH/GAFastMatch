@@ -2,13 +2,21 @@ function [newsamples] = GA_Crossover(samples, n)
 
 % nsamples = size(samples, 1);
 % nbits = 6 * 2^n;
-pcross = 0.2;
+pcross = 0.7;
+
+% randomly permute the samples
+nsamples = size(samples,1);
+order = randperm(nsamples);
+samples = samples(order,:);
+samples = samples(order,:);
+samples = samples(order,:);
 
 logicalSamples = GA_LogicalSamplesFromInt(samples, n);%zeros(nsamples, nbits);
 
 logicalSamples = GA_LogicalCrossover(logicalSamples, pcross);
 
 newsamples = GA_IntSamplesFromLogical(logicalSamples, n);
+
 
 end
 
@@ -29,7 +37,7 @@ function [lsam] = GA_LogicalCrossover(lsam, pcross)
 
 [nsamples,nbits] = size(lsam);
 
-for i=1:2:nsamples
+for i=1:2:nsamples-1
     if(rand(1)<pcross)
         p1 = lsam(i, :);
         p2 = lsam(i+1, :);
@@ -52,7 +60,7 @@ sam = zeros(nsamples, 6, 'uint8');
 
 for i=1:n
     sam = sam * 2;
-    sam = sam + lsam(:, i:n:nbits);
+    sam = sam + uint8(lsam(:, i:n:nbits));
 end
 
 end

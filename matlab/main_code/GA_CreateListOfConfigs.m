@@ -24,6 +24,7 @@ assert(nr_steps>=256);
 % second rotation is a special case (can be limited to a single quartile)
 quartile1_r_steps = r_steps(r_steps < -pi/2 + steps.r/2);
 NR2_steps = length(quartile1_r_steps);
+r2_steps = (r_steps - 3*pi)/4; % [-pi, pi] -> [-pi, -pi/2]
 
 % gridsize
 gridSize = ntx_steps*nty_steps*(ns_steps^2)*(nr_steps*NR2_steps);
@@ -33,13 +34,14 @@ if (exist('onlyGridSize','var') && onlyGridSize)
     return
 end
 
-configs = zeros(size(samples),6);
-configs(:,1) = tx_steps(samples(:,1));
-configs(:,2) = ty_steps(samples(:,2));
-configs(:,3) = s_steps(samples(:,3));
-configs(:,4) = s_steps(samples(:,4));
-configs(:,5) = r_steps(samples(:,5));
-configs(:,6) = r_steps(samples(:,6)); % not using NR2_steps now!
+configs = zeros(size(samples,1),6);
+configs(:,1) = tx_steps(int16(samples(:,1)+1));
+configs(:,2) = ty_steps(int16(samples(:,2)+1));
+% configs(:,3) = r2_steps(int16(samples(:,3)+1)); % finer r2!
+configs(:,3) = r_steps(int16(samples(:,3)+1)); 
+configs(:,4) = s_steps(int16(samples(:,4)+1));
+configs(:,5) = s_steps(int16(samples(:,5)+1));
+configs(:,6) = r_steps(int16(samples(:,6)+1)); 
 
 end
 
