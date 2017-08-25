@@ -51,13 +51,13 @@ numPoints = round(10/epsilon^2);
 % n2 = n2; % target image size, if the images are not square, reshape them! 
 [h2,w2,d] = size(I2);
 n = 8; % length of the code --> number of steps = 2^n
-sigma = 5; % LAS sampling parameter 
+sigma = 3; % LAS sampling parameter 
 eps = 3; % step for SAD computation
 delta = 11^6; % initial group size
-lambda = 0.9; % reduction of group size per generation
+lambda = 0.7; % reduction of group size per generation
 alpha = 0; % two parameters for to bound the lambda 
-beta = 0; % of which I question the use
-c = 200; % #samples of last generation
+beta = 0;  % of which I question the use
+c = 20; % #samples of last generation
 
 % procedure
 % 1. initialization
@@ -68,7 +68,7 @@ c = 200; % #samples of last generation
 % <4. crossover the set in <3.
 % 3. return the best A in this small final group
 
-% 1-tx, 2-ty, 3-theta2, 4-sx, 5-sy, 6-theta1; -temporary
+% 1-tx, 2-ty, 3-theta2, 4-sx, 5-sy, 6-theta1; --now
 % Dr. Zhang: 1-tx, 2-ty, 3-theta2, 4-theta1, 5-sx, 6-sy;
 initSamples = randi([0, 2^n - 1], delta, 6, 'uint8');
 % initConfigs = GA_CreateListOfConfigs(bounds,steps,initSamples);

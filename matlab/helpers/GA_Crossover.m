@@ -10,10 +10,13 @@ order = randperm(nsamples);
 samples = samples(order,:);
 samples = samples(order,:);
 samples = samples(order,:);
+samples = samples(order,:);
+samples = samples(order,:);
+samples = samples(order,:);
 
 logicalSamples = GA_LogicalSamplesFromInt(samples, n);%zeros(nsamples, nbits);
 
-logicalSamples = GA_LogicalCrossover(logicalSamples, pcross);
+logicalSamples = GA_LogicalCrossover(logicalSamples, pcross, n);
 
 newsamples = GA_IntSamplesFromLogical(logicalSamples, n);
 
@@ -33,7 +36,31 @@ for i=n:-1:1
 end
 end
 
-function [lsam] = GA_LogicalCrossover(lsam, pcross)
+function [lsam] = GA_LogicalCrossover(lsam, pcross, n)
+% cross over every part of the code
+% i.e. consider the code as 2^6-ary rather than binary.
+[nsamples,nbits] = size(lsam);
+
+for i=1:2:nsamples-1
+    if(rand(1)<pcross)
+        p1 = lsam(i, :);
+        p2 = lsam(i+1, :);
+        ptcross = randi(n, 6, 1);
+        indices = [];
+        for j=1:6
+            indices = [indices, ptcross(j)+(j-1)*n : j*n];
+        end
+        t = p1(indices);
+        p1(indices) = p2(indices);
+        p2(indices) = t;
+        lsam(i, :) = p1;
+        lsam(i+1,:) = p2;
+    end
+    
+end
+end
+
+function [lsam] = GA_LogicalCrossoverWhole(lsam, pcross)
 
 [nsamples,nbits] = size(lsam);
 

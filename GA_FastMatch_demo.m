@@ -15,10 +15,10 @@ CompileMex
 
 %% Select examples to run
 
-example_1 = 0; % "predefined template in a predefined image"
+example_1 = 1; % "predefined template in a predefined image"
 example_2 = 0; % "predefined template with given MASK in a predefined image"
 example_3 = 0; % "RANDOM template in a user-selected image"
-example_4 = 1; % "USER-SELECTED template in a user-selected image"
+example_4 = 0; % "USER-SELECTED template in a user-selected image"
 example_5 = 0; % "choose a pair of RELATED images and select a template in the first"
 example_6 = 0; % "random template in a user-selected image with a limited SEARCH RANGE"
 
@@ -86,7 +86,6 @@ if example_2
     fprintf('example 2 -  optError: %.4f (%.2f GLs), fullError: %.4f (%.2f GLs), overlapError: %.1f%%\n',...
         optError,256*optError,fullError,256*fullError,100*overlapError);    
     fprintf('example 2: finished\n\n');
-       
 end
 
 
@@ -99,6 +98,7 @@ if example_3
     
     % reading image and template
     img = SelectAnImage('Choose an image for example 3','imgs\*.*');
+    img = imresize(img, 0.5);
     img = MakeOdd(img);
 
     [h,w,d] = size(img);

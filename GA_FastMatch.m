@@ -14,7 +14,7 @@ function [bestConfig,bestTransMat,sampledError] = GA_FastMatch(template,img,... 
 
 %% set default values for optional variables
 if (~exist('epsilon','var') || isempty(epsilon))
-    epsilon = 0.10;
+    epsilon = 0.15;
 end
 if (~exist('delta','var') || isempty(delta))
     delta = 0.25;

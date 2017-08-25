@@ -38,27 +38,6 @@ end
 
 
 %% main loop
-% TO Change!
-
-% parameters
-% n1 = n1; % template size 
-% n2 = n2; % target image size, if the images are not square, reshape them! 
-% n = 8; % length of the code --> number of steps = 2^n
-% sigma = 5; % LAS sampling parameter 
-% eps = 3; % step for SAD computation
-% delta = 11^6; % initial group size
-% lambda = 0.7; % reduction of group size per generation
-% alpha = 0; % two parameters for to bound the lambda 
-% beta = 0; % of which I question the use
-
-% procedure
-% 1. initialization
-% 2. for every generation until generation size is smaller than c
-% <1. sample learning set
-% <2. tune alpha and beta with learning set
-% <3. use LAS to sample the next generation and reduce the size with lambda
-% <4. crossover the set in <3.
-% 3. return the best A in this small final group
 
 deltaFact = 1.511;
 level = 0;
@@ -236,6 +215,7 @@ end
 sampledError = bestDist;
 
 return
+end
 
 
 
@@ -247,6 +227,7 @@ for i = 1 : size(A,1)
                 res = 1;
                 return
         end
+end
 end
 
 
@@ -286,6 +267,7 @@ if (~isempty(bestGridVec))
         disp('problem with configs');
     end
 end
+end
 
 
 function [xs, ys] = getPixelSample(mask, numPoints)
@@ -295,5 +277,5 @@ ind = randi(length(locs), [1,numPoints]);
 [ys,xs] = ind2sub(size(mask),locs(ind));
 ys = ys';
 xs = xs';
-
+end
 
